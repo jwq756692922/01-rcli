@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest]
+        #需要检查编译的平台
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
