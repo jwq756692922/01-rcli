@@ -1,0 +1,6 @@
+#代码拼写检查
+[default.extend-words]
+
+[files]
+#不检查拼写的路径
+extend-exclude = ["CHANGELOG.md", "notebooks/*"]
