@@ -4,7 +4,7 @@ use csv::{Reader, StringRecord};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::OutputFormart;
+use crate::{CsvOpts, OutputFormart};
 
 pub fn write_json<T>(records: Vec<T>, file_path: &str) -> anyhow::Result<()>
 where
@@ -85,4 +85,18 @@ pub struct Player {
     nationality: String,
     #[serde(rename = "Kit Number")]
     kit_number: i32,
+}
+
+pub fn do_csv_process(opts: CsvOpts) -> anyhow::Result<()> {
+    // let records: Vec<rcli::Player> = rcli::read_csv_to_struct(&opts.input)?;
+    println!("Csv opts:{:?}", opts);
+
+    let target_path = format!("{}.{}", &opts.output, &opts.format);
+    write_record_to_file(
+        read_csv_to_record(&opts.input)?,
+        target_path.as_str(),
+        opts.format,
+    )?;
+
+    Ok(())
 }

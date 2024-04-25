@@ -1,5 +1,5 @@
 use clap::Parser;
-use rcli::{read_csv_to_record, write_record_to_file, Opts, Subcommand};
+use rcli::{do_csv_process, do_gen_pwd_process, Opts, Subcommand};
 
 //anyhow ? 自动处理异常
 //cargo add anyhow
@@ -8,25 +8,23 @@ fn main() -> anyhow::Result<()> {
 
     let opts = Opts::parse();
 
-    println!("opts:{:?}", opts);
-
     //cargo add csv
     //cargo add serde --features derive
 
     match opts.cmd {
         Subcommand::Csv(opts) => {
             // let records: Vec<rcli::Player> = rcli::read_csv_to_struct(&opts.input)?;
-            // println!("len:{}", records.len());
-            // rcli::write_json(records, &opts.output)?;
-            let target_path = format!("{}.{}", &opts.output, &opts.format);
-            write_record_to_file(
-                read_csv_to_record(&opts.input)?,
-                target_path.as_str(),
-                opts.format,
-            )?;
+            println!("Csv opts:{:?}", opts);
 
+            do_csv_process(opts)?;
             //yaml 依赖 cargo add serde-yaml
             //toml 依赖 cargo add toml
+        }
+        Subcommand::GenPwd(opts) => {
+            println!("GenPwd opts:{:?}", opts);
+            let result: Option<String> = do_gen_pwd_process(opts)?;
+
+            println!("result:{:?}", result);
         }
         _ => {
             println!("-");

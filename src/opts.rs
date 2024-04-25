@@ -19,6 +19,9 @@ pub enum Subcommand {
     #[command(name = "csv", about = "show csv")]
     Csv(CsvOpts),
     Text,
+
+    #[command(name = "genpwd", about = "generate a random password")]
+    GenPwd(GenPwdOpts),
 }
 
 #[derive(Debug, Parser, Clone, Copy)]
@@ -45,6 +48,20 @@ pub struct CsvOpts {
 
     #[arg(short, long, default_value = "json", value_parser = check_format)]
     pub format: OutputFormart,
+}
+
+#[derive(Debug, Parser)]
+pub struct GenPwdOpts {
+    #[arg(short, long, default_value_t = 16)]
+    pub length: u8,
+    #[arg(long, default_value_t = true)]
+    pub uppercase: bool,
+    #[arg(long, default_value_t = true)]
+    pub lowercase: bool,
+    #[arg(long, default_value_t = true)]
+    pub number: bool,
+    #[arg(long, default_value_t = true)]
+    pub symbol: bool,
 }
 
 pub fn check_input(filename: &str) -> Result<String, String> {
