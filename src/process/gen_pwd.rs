@@ -1,8 +1,7 @@
-use crate::GenPwdOpts;
 use rand::seq::SliceRandom;
 use zxcvbn::zxcvbn;
 
-//cargo add rand 随机数生成
+use crate::GenPwdOpts;
 
 const UPPER: &[u8] = b"ABCDEFGHJKLMNPQRSTUVWXYZ";
 const LOWER: &[u8] = b"abcdefghijkmnopqrstuvwxyz";
