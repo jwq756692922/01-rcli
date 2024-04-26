@@ -1,5 +1,5 @@
 use clap::Parser;
-use rcli::{do_csv_process, do_gen_pwd_process, Opts, Subcommand};
+use rcli::{check_pwd_safe, do_csv_process, do_gen_pwd_process, Opts, Subcommand};
 
 //anyhow ? 自动处理异常
 //cargo add anyhow
@@ -23,8 +23,9 @@ fn main() -> anyhow::Result<()> {
         Subcommand::GenPwd(opts) => {
             println!("GenPwd opts:{:?}", opts);
             let result: Option<String> = do_gen_pwd_process(opts)?;
-
-            println!("result:{:?}", result);
+            let password = result.unwrap();
+            let safe = check_pwd_safe(&password);
+            println!("result:{:?} safe:{:?}", password, safe.unwrap());
         }
         _ => {
             println!("-");
