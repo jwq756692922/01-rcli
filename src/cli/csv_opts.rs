@@ -1,7 +1,9 @@
 use core::fmt;
-use std::{path::Path, str::FromStr};
+use std::str::FromStr;
 
 use clap::Parser;
+
+use crate::check_input;
 
 #[derive(Debug, Parser, Clone, Copy)]
 pub enum OutputFormart {
@@ -31,14 +33,6 @@ pub struct CsvOpts {
 
     #[arg(short, long, default_value = "json", value_parser = check_format)]
     pub format: OutputFormart,
-}
-
-pub fn check_input(filename: &str) -> Result<String, String> {
-    if Path::new(filename).exists() {
-        Ok(filename.into())
-    } else {
-        Err("file is not exist".into())
-    }
 }
 
 pub fn check_format(format: &str) -> Result<OutputFormart, anyhow::Error> {

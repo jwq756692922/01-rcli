@@ -1,5 +1,8 @@
 use clap::Parser;
-use rcli::{check_pwd_safe, do_csv_process, do_gen_pwd_process, Opts, Subcommand};
+use rcli::{
+    check_pwd_safe, do_csv_process, do_gen_pwd_process, process_decode, process_encode,
+    Base64SubCommand, Opts, Subcommand,
+};
 
 //anyhow ? 自动处理异常
 //cargo add anyhow
@@ -27,6 +30,22 @@ fn main() -> anyhow::Result<()> {
             let safe = check_pwd_safe(&password);
             println!("result:{:?} safe:{:?}", password, safe.unwrap());
         }
+        Subcommand::Base64(opts) => match opts {
+            Base64SubCommand::Decode(opts) => {
+                println!("decode age:{:?}", opts);
+                println!(
+                    "decode age:{:?}",
+                    process_decode(&opts.input, &opts.formart)
+                );
+            }
+            Base64SubCommand::Encode(opts) => {
+                println!("dncode age:{:?}", opts);
+                println!(
+                    "decode age:{:?}",
+                    process_encode(&opts.input, &opts.formart)
+                );
+            }
+        },
         _ => {
             println!("-");
         }
